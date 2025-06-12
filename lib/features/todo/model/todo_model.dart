@@ -1,6 +1,7 @@
+import 'package:equatable/equatable.dart';
 import 'package:jkb_feb_2025_batch/features/todo/model/todo_priority.dart';
 
-class TodoModel {
+class TodoModel extends Equatable {
   const TodoModel({
     required this.id,
     required this.title,
@@ -20,6 +21,24 @@ class TodoModel {
   final DateTime createdAt;
   final DateTime? updatedAt;
   final DateTime? deletedAt;
+
+  TodoModel copyWith({
+    String? title,
+    String? description,
+    TodoPriority? priority,
+    DateTime? updatedAt,
+  }) {
+    return TodoModel(
+      id: id,
+      title: title ?? this.title,
+      description: description ?? this.description,
+      completed: completed,
+      priority: priority ?? this.priority,
+      createdAt: createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      deletedAt: deletedAt,
+    );
+  }
 
   factory TodoModel.fromDatabaseMap(Map<String, dynamic> map) {
     return TodoModel(
@@ -66,4 +85,16 @@ class TodoModel {
   Map<String, dynamic> toDatabaseDeleteMap() {
     return {"deletedAt": DateTime.now().millisecondsSinceEpoch};
   }
+
+  @override
+  List<Object?> get props => [
+    id,
+    title,
+    description,
+    completed,
+    priority,
+    createdAt,
+    updatedAt,
+    deletedAt,
+  ];
 }

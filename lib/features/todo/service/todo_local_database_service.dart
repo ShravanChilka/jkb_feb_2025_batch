@@ -26,7 +26,7 @@ class TodoLocalDatabaseService {
     );
   }
 
-  void update(TodoModel updatedModel) async {
+  Future<void> update(TodoModel updatedModel) async {
     await db.update(
       "Todos",
       updatedModel.toDatabaseUpdateMap(),
@@ -35,7 +35,7 @@ class TodoLocalDatabaseService {
     );
   }
 
-  void delete(TodoModel model) async {
+  Future<void> delete(TodoModel model) async {
     await db.update("Todos", model.toDatabaseDeleteMap());
   }
 }
