@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:jkb_feb_2025_batch/features/recently_deleted/view_model/recently_deleted_view_model.dart';
 import 'package:jkb_feb_2025_batch/features/todo/model/todo_model.dart';
-import 'package:jkb_feb_2025_batch/features/todo/view/create_todo_screen.dart';
 import 'package:jkb_feb_2025_batch/features/todo/view/dialogs/todo_dialog_helper.dart';
 import 'package:jkb_feb_2025_batch/features/todo/view/widgets/view_todo_screen_body.dart';
-import 'package:jkb_feb_2025_batch/features/todo/view_model/todo_view_model.dart';
 import 'package:provider/provider.dart';
 
-class ViewTodoScreen extends StatelessWidget {
-  const ViewTodoScreen({super.key, required this.todo});
+class ViewRecentlyDeletedTodoScreen extends StatelessWidget {
+  const ViewRecentlyDeletedTodoScreen({super.key, required this.todo});
 
   final TodoModel todo;
 
@@ -15,32 +14,28 @@ class ViewTodoScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("View Todo"),
+        title: Text('View Deleted Todo'),
         actions: [
           PopupMenuButton(
             itemBuilder: (context) {
               return [
                 PopupMenuItem(
-                  child: Text("Edit"),
+                  child: Text("Restore"),
                   onTap: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder:
-                            (_) => ChangeNotifierProvider.value(
-                              value: context.read<TodoViewModel>(),
-                              child: CreateTodoScreen(todo: todo),
-                            ),
-                      ),
+                    context.read<RecentlyDeletedViewModel>().onRestoreEvent(
+                      todo,
                     );
+                    Navigator.of(context).pop();
                   },
                 ),
                 PopupMenuItem(
                   child: Text("Delete"),
                   onTap: () {
-                    TodoDialogHelper.instance.showDeleteConfirmationDialog(
-                      context: context,
-                      todo: todo,
-                    );
+                    TodoDialogHelper.instance
+                        .showPermanantlyDeleteConfirmationDialog(
+                          context: context,
+                          todo: todo,
+                        );
                   },
                 ),
               ];

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:jkb_feb_2025_batch/features/todo/model/create_todo_model.dart';
 import 'package:jkb_feb_2025_batch/features/todo/model/todo_model.dart';
 import 'package:jkb_feb_2025_batch/features/todo/model/todo_priority.dart';
+import 'package:jkb_feb_2025_batch/features/todo/model/todo_sort.dart';
 import 'package:jkb_feb_2025_batch/features/todo/service/todo_local_database_service.dart';
 
 class TodoViewModel extends ChangeNotifier {
@@ -18,9 +19,36 @@ class TodoViewModel extends ChangeNotifier {
   bool _isLoading = false;
   bool get isLoading => _isLoading;
 
+  String? _query;
+
+  TodoPriority? _filterPriority;
+  TodoPriority? get filterPriority => _filterPriority;
+
+  TodoSort get sort => _sort;
+  TodoSort _sort = TodoSort.defaultOption;
+
   void fetch() async {
-    _todos = await _service.readAll();
+    _todos = await _service.readAll(
+      query: _query,
+      priority: _filterPriority,
+      sort: _sort,
+    );
     notifyListeners();
+  }
+
+  void onSearchQueryChangedEvent(String query) async {
+    _query = query;
+    fetch();
+  }
+
+  void onFilterPriorityChangedEvent(TodoPriority priority) {
+    _filterPriority = priority;
+    fetch();
+  }
+
+  void onSortChangedEvent(TodoSort sort) {
+    _sort = sort;
+    fetch();
   }
 
   Future<void> create({

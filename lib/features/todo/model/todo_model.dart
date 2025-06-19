@@ -27,6 +27,7 @@ class TodoModel extends Equatable {
     String? description,
     TodoPriority? priority,
     DateTime? updatedAt,
+    DateTime? deletedAt,
   }) {
     return TodoModel(
       id: id,
@@ -36,7 +37,7 @@ class TodoModel extends Equatable {
       priority: priority ?? this.priority,
       createdAt: createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
-      deletedAt: deletedAt,
+      deletedAt: deletedAt ?? this.deletedAt,
     );
   }
 
@@ -79,11 +80,19 @@ class TodoModel extends Equatable {
       "completed": completed ? 1 : 0,
       "priority": priority.name,
       "updatedAt": DateTime.now().millisecondsSinceEpoch,
+      "deleteAt": deletedAt?.millisecondsSinceEpoch,
     };
   }
 
   Map<String, dynamic> toDatabaseDeleteMap() {
     return {"deletedAt": DateTime.now().millisecondsSinceEpoch};
+  }
+
+  Map<String, dynamic> toDatabaseRestoreMap() {
+    return {
+      "deletedAt": null,
+      "updatedAt": DateTime.now().millisecondsSinceEpoch,
+    };
   }
 
   @override
