@@ -42,7 +42,12 @@ class TodoViewModel extends ChangeNotifier {
   }
 
   void onFilterPriorityChangedEvent(TodoPriority priority) {
-    _filterPriority = priority;
+    if (_filterPriority == priority) {
+      _filterPriority = null;
+      notifyListeners();
+    } else {
+      _filterPriority = priority;
+    }
     fetch();
   }
 

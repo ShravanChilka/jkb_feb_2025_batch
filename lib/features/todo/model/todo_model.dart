@@ -80,7 +80,7 @@ class TodoModel extends Equatable {
       "completed": completed ? 1 : 0,
       "priority": priority.name,
       "updatedAt": DateTime.now().millisecondsSinceEpoch,
-      "deleteAt": deletedAt?.millisecondsSinceEpoch,
+      "deletedAt": deletedAt?.millisecondsSinceEpoch,
     };
   }
 

@@ -11,26 +11,27 @@ class TodoPriorityFilterBuilder extends StatelessWidget {
     return Selector<TodoViewModel, TodoPriority?>(
       selector: (context, viewModel) => viewModel.filterPriority,
       builder: (context, selectedPriority, child) {
-        return Row(
-          children:
-              TodoPriority.values
-                  .map(
-                    (priority) => Padding(
-                      padding: const EdgeInsets.only(right: 10),
-                      child: ChoiceChip(
-                        label: Text(priority.name),
-                        onSelected: (value) {
-                          if (value) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+          child: Row(
+            children:
+                TodoPriority.values
+                    .map(
+                      (priority) => Padding(
+                        padding: const EdgeInsets.only(right: 10),
+                        child: ChoiceChip(
+                          label: Text(priority.name),
+                          onSelected: (value) {
                             context
                                 .read<TodoViewModel>()
                                 .onFilterPriorityChangedEvent(priority);
-                          }
-                        },
-                        selected: priority == selectedPriority,
+                          },
+                          selected: priority == selectedPriority,
+                        ),
                       ),
-                    ),
-                  )
-                  .toList(),
+                    )
+                    .toList(),
+          ),
         );
       },
     );

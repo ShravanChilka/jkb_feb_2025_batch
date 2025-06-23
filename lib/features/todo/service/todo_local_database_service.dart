@@ -14,8 +14,8 @@ class TodoLocalDatabaseService {
   }) async {
     final result = await db.rawQuery(
       "SELECT * FROM Todos WHERE deletedAt IS NULL"
-      "${query != null && query.trim().isNotEmpty ? " AND title LIKE %$query%" : ""}"
-      "${priority != null ? "AND priority = ${priority.name}" : ""}"
+      "${query != null && query.trim().isNotEmpty ? " AND title LIKE '%$query%'" : ""}"
+      "${priority != null ? " AND priority IS '${priority.name}'" : ""}"
       " ORDER BY ${sort.key} ${sort.ordering}",
     );
     return result.map((map) => TodoModel.fromDatabaseMap(map)).toList();

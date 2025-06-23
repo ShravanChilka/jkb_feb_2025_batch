@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:jkb_feb_2025_batch/features/recently_deleted/view/recently_delete_screen.dart';
+import 'package:jkb_feb_2025_batch/features/recently_deleted/view/recently_delete_screen_provider.dart';
+import 'package:jkb_feb_2025_batch/features/recently_deleted/view/view_recently_deleted_todo_screen.dart';
 import 'package:jkb_feb_2025_batch/features/todo/model/todo_sort.dart';
 import 'package:jkb_feb_2025_batch/features/todo/utils/todo_strings.dart';
 import 'package:jkb_feb_2025_batch/features/todo/view/create_todo_screen.dart';
@@ -33,7 +36,16 @@ class _TodoScreenState extends State<TodoScreen> {
           PopupMenuButton(
             itemBuilder: (context) {
               return [
-                PopupMenuItem(child: Text('Recently Deleted'), onTap: () {}),
+                PopupMenuItem(
+                  child: Text('Recently Deleted'),
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => RecentlyDeleteScreenProvider(),
+                      ),
+                    );
+                  },
+                ),
               ];
             },
           ),
